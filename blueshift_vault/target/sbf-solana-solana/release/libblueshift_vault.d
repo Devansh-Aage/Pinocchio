@@ -1,0 +1,1 @@
+/root/projects/pinnochio/blueshift_vault/target/sbf-solana-solana/release/libblueshift_vault.rlib: /root/projects/pinnochio/blueshift_vault/src/instructions/deposit.rs /root/projects/pinnochio/blueshift_vault/src/instructions/mod.rs /root/projects/pinnochio/blueshift_vault/src/instructions/withdraw.rs /root/projects/pinnochio/blueshift_vault/src/lib.rs
