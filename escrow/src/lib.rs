@@ -1,4 +1,7 @@
-use pinocchio::{account_info::AccountInfo, entrypoint, pubkey::Pubkey, ProgramResult};
+use pinocchio::{
+    account_info::AccountInfo, entrypoint, program_error::ProgramError, pubkey::Pubkey,
+    ProgramResult,
+};
 entrypoint!(process_instruction);
 
 pub mod instructions;
@@ -6,6 +9,9 @@ pub use instructions::*;
 
 pub mod state;
 pub use state::*;
+
+pub mod error;
+pub use error::*;
 
 // 22222222222222222222222222222222222222222222
 pub const ID: Pubkey = [
@@ -18,8 +24,10 @@ fn process_instruction(
     accounts: &[AccountInfo],
     intruction_data: &[u8],
 ) -> ProgramResult {
-    // match intruction_data.split_first() {
-    //     Some((Make::DISCRIMINATOR))=> Make::t
-    // }
-    Ok(())
+    match intruction_data.split_first() {
+        Some((Make::DISCRIMINATOR, data)) => Make::try_from((data, accounts))?.process(),
+        Some((Take::DISCRIMINATOR, _)) => Take::try_from(accounts)?.process(),
+        Some((Refund::DISCRIMINATOR, _)) => Refund::try_from(accounts)?.process(),
+        _ => Err(ProgramError::InvalidInstructionData),
+    }
 }
